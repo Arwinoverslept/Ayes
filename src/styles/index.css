@@ -1,0 +1,199 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    color-scheme: light;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    @apply font-body text-rose/90;
+    margin: 0;
+    background-color: #fffdf8;
+    overflow-x: hidden;
+  }
+
+  /* Soft, on-theme text selection */
+  ::selection {
+    background: rgba(248, 200, 220, 0.55);
+    color: #7a5560;
+  }
+}
+
+@layer components {
+  /* Reusable glassmorphism panel.
+     backdrop-blur is expensive on mobile, so we keep the radius moderate and
+     lean on a slightly more opaque fill to preserve the frosted look. */
+  .glass {
+    @apply border border-white/60 bg-white/50 shadow-card;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+
+  .glass-soft {
+    @apply border border-white/50 bg-white/40;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+
+  /* Section shell — consistent vertical rhythm + max width */
+  .section-shell {
+    @apply relative mx-auto w-full max-w-6xl px-6 py-24 sm:px-8 md:py-32;
+  }
+
+  /* Elegant section heading */
+  .section-title {
+    @apply font-heading text-3xl font-semibold tracking-tight text-rose sm:text-4xl md:text-5xl;
+  }
+
+  /* Shimmering gradient text (used for the recipient's name) */
+  .shimmer-name {
+    background: linear-gradient(
+      100deg,
+      #d8a7b1 20%,
+      #f8c8dc 40%,
+      #e8d7a5 50%,
+      #f8c8dc 60%,
+      #d8a7b1 80%
+    );
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    @apply animate-shimmer;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  /* ── Ambient decoration animations (GPU/compositor-driven) ──
+     These run entirely off the main thread using only transform + opacity,
+     so dozens of sprites stay smooth even on phones. Per-element variation
+     comes from inline CSS custom properties (--drift, --fy, --peak) and
+     animation-duration / -delay, so we need only a handful of @keyframes. */
+  .gpu {
+    will-change: transform, opacity;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+  }
+
+  @keyframes deco-fall {
+    0% {
+      transform: translate3d(0, -14vh, 0);
+      opacity: 0;
+    }
+    12% {
+      opacity: var(--peak, 0.85);
+    }
+    88% {
+      opacity: var(--peak, 0.85);
+    }
+    100% {
+      transform: translate3d(0, 114vh, 0);
+      opacity: 0;
+    }
+  }
+
+  @keyframes deco-rise {
+    0% {
+      transform: translate3d(0, 114vh, 0);
+      opacity: 0;
+    }
+    12% {
+      opacity: var(--peak, 0.85);
+    }
+    88% {
+      opacity: var(--peak, 0.85);
+    }
+    100% {
+      transform: translate3d(0, -14vh, 0);
+      opacity: 0;
+    }
+  }
+
+  @keyframes deco-sway {
+    0%,
+    100% {
+      transform: translate3d(0, 0, 0);
+    }
+    50% {
+      transform: translate3d(var(--drift, 30px), 0, 0);
+    }
+  }
+
+  @keyframes deco-spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  @keyframes deco-twinkle {
+    0%,
+    100% {
+      opacity: 0.15;
+      transform: scale(0.65);
+    }
+    50% {
+      opacity: var(--peak, 0.9);
+      transform: scale(1);
+    }
+  }
+
+  @keyframes deco-glow-drift {
+    0%,
+    100% {
+      transform: translate3d(0, 0, 0);
+    }
+    50% {
+      transform: translate3d(var(--gx, 40px), var(--gy, -30px), 0);
+    }
+  }
+
+  @keyframes floaty {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(var(--fy, -10px));
+    }
+  }
+
+  /* Thin, on-theme scrollbar for modal bodies etc. */
+  .pretty-scroll {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(216, 167, 177, 0.5) transparent;
+  }
+  .pretty-scroll::-webkit-scrollbar {
+    width: 8px;
+  }
+  .pretty-scroll::-webkit-scrollbar-thumb {
+    background-color: rgba(216, 167, 177, 0.5);
+    border-radius: 9999px;
+  }
+}
+
+/* Respect users who prefer reduced motion — soften everything */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
