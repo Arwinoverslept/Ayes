@@ -1,47 +1,23 @@
-/**
- * ─────────────────────────────────────────────────────────────
- *  💖  THE ONLY FILE YOU NEED TO EDIT  💖
- * ─────────────────────────────────────────────────────────────
- *  Change anything here and the whole website updates — you never
- *  have to touch the UI components.
- *
- *  • Photos: drop image files into `public/photos/` then set the
- *    `src` paths below (e.g. "/photos/memory-1.jpg").
- *    Leave `src: null` to show a pretty placeholder instead.
- * ─────────────────────────────────────────────────────────────
- */
+
 
 export const birthdayData = {
-  // ── Who this is for / from ────────────────────────────────
   recipientName: 'Chriselle Angela Opeña Cardaño',
-  // Shown in the big greeting (keep it short & sweet).
   greetingName: 'Ayes',
-  // A term of endearment used in a few warm spots.
   nickname: 'Pretty',
   senderName: 'Arwin',
   birthDate: 'August 13',
 
-  // ── Scene 1 · The Gift ────────────────────────────────────
   gift: {
     prompt: 'Someone prepared something special just for you...',
     button: 'Open Your Gift',
   },
 
-  // ── Scene 2 · Birthday Greeting ───────────────────────────
-  // The short message. Each paragraph fades in one after another,
-  // so you can split it into multiple strings for extra grace.
   birthdayMessage: [
     'I hope today brings you as much happiness as you bring to everyone around you.',
     'May your year be filled with love, laughter, exciting adventures, and dreams coming true.',
     'Never stop smiling, because your smile makes the world a little brighter. Wishing you the happiest birthday ever!',
   ],
 
-  // ── Scene 3 · Favorites (photo gallery) ───────────────────
-  // This section shows EVERY image you drop into `src/assets/favorites/`
-  // automatically — there's nothing to configure here.
-
-  // ── Scene 4 · Things I Love About You ─────────────────────
-  // `icon` matches a key in src/components/Reasons.jsx iconMap.
   reasons: [
     { icon: 'heart', text: 'Your Kindness' },
     { icon: 'flower', text: 'Your Beautiful Heart' },
@@ -98,9 +74,9 @@ export const birthdayData = {
     //     Each string is its own paragraph.
     letter: [
       'Hey Ayes,',
-      'Thank you for your kindness, your patience, your laughter, and that smile that quietly fixes whatever needs fixing in me. Thank you for being exactly, wonderfully you.',
-      'On your birthday, my only wish is that you feel even a fraction of the joy you give to everyone lucky enough to know you. You deserve the whole world, and I hope this year begins to give it to you.',
-      'Happy Birthday, Pretty. Here’s to you — today, and every day after.',
+      'Heyhey! I hope youll have a great day today. (Kung late mo na nakita to, I hope you had a great day). Happy Birtday, Pretty!',
+      'I have a few wishes for you. First, I hope you get to experience the same joy you bring to everyone whos lucky enough to know you. I hope all your dreams come true, no matter how big or small they may be, because you truly deserve every happiness life has to offer. I also wish you good health, both physically and mentally, so you can continue doing the things you love and enjoy every moment to the fullest. I also hope you continue to grow into an even more amazing person you already are, without ever losing the kindness that makes you so special. Most of all, I hope youre always surrounded by people who genuinely love and support you. I hope you never lose that beautiful smile, and I hope this new chapter of your life brings you happiness, peace, success, and countless unforgettable memories.',
+      'I hope this little surprise made you smile. Take care always okay? Again, Happy Birthday, Pretty.',
     ],
     signOff: 'With all my heart,',
   },
