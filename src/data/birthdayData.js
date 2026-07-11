@@ -78,7 +78,7 @@ export const birthdayData = {
       'I have a few wishes for you. First, I hope you get to experience the same joy you bring to everyone whos lucky enough to know you. I hope all your dreams come true, no matter how big or small they may be, because you truly deserve every happiness life has to offer. I also wish you good health, both physically and mentally, so you can continue doing the things you love and enjoy every moment to the fullest. I also hope you continue to grow into an even more amazing person you already are, without ever losing the kindness that makes you so special. Most of all, I hope youre always surrounded by people who genuinely love and support you. I hope you never lose that beautiful smile, and I hope this new chapter of your life brings you happiness, peace, success, and countless unforgettable memories.',
       'I hope this little surprise made you smile. Take care always okay? Again, Happy Birthday, Pretty.',
     ],
-    signOff: 'With all my heart,',
+    signOff: 'Best Wishes,',
   },
 
   // ── Scene 8 · Grand Finale ────────────────────────────────
@@ -89,7 +89,7 @@ export const birthdayData = {
 
   // ── Footer ────────────────────────────────────────────────
   footer: {
-    line: 'Made with love, just for you.',
+    line: 'Made just for you.',
   },
 };
 
