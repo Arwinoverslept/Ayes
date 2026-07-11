@@ -54,7 +54,7 @@ export const birthdayData = {
       text: 'May this year bring you closer to everything your heart desires.',
     },
     {
-      emoji: '💕', text: 'Never forget how deeply loved and appreciated you are.'
+      emoji: '💕', text: 'Know that you are loved, ALWAYS in ALL WAYS.'
     },
     {
       emoji: '🎁',
