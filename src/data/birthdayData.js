@@ -4,7 +4,7 @@ export const birthdayData = {
   recipientName: 'Chriselle Angela Opeña Cardaño',
   greetingName: 'Ayes',
   nickname: 'Pretty',
-  senderName: 'Arwin',
+  senderName: 'Arwin Viernes',
   birthDate: 'August 13',
 
   gift: {
