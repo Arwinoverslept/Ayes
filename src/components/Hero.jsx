@@ -174,7 +174,7 @@ export default function Hero() {
           whileInView="visible"
           viewport={{ once: true, amount: 0.4 }}
         >
-          <p className="mb-3 font-body text-sm uppercase tracking-[0.35em] text-rose/60">
+          <p className="mb-3 font-body text-sm uppercase tracking-[0.35em] text-black/60">
             🎉 &nbsp;Happy Birthday&nbsp; 🎂
           </p>
           <h1 className="font-greeting text-6xl leading-tight text-rose sm:text-7xl md:text-8xl">
@@ -196,7 +196,6 @@ export default function Hero() {
         </motion.div>
       </div>
 
-      {/* Heartfelt short message — paragraph-by-paragraph reveal */}
       <div className="mt-10 max-w-2xl space-y-5">
         {birthdayMessage.map((para, i) => (
           <motion.p
@@ -205,7 +204,7 @@ export default function Hero() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.6 }}
             transition={{ duration: 0.9, delay: 0.2 + i * 0.35 }}
-            className="text-balance font-body text-base leading-relaxed text-rose/80 sm:text-lg"
+            className="text-balance font-body text-base leading-relaxed text-black/40 sm:text-lg"
           >
             {para}
           </motion.p>

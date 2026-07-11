@@ -18,7 +18,8 @@ import Footer from './components/Footer';
  * Orchestrates the progressive story:
  *   1. Locked state → only the GiftBox is visible.
  *   2. On open → the intro dissolves and the full experience fades up.
- *   3. Closing the surprise letter (or pressing "Replay") triggers the finale.
+ *   3. Closing the surprise letter triggers the finale.
+ *   4. "Replay the magic" restarts the whole experience from the closed gift.
  *
  * The living background (gradient + decorations) is always present so every
  * scene shares the same dreamy atmosphere.
@@ -41,6 +42,13 @@ export default function App() {
 
   const showFinale = useCallback(() => setFinale(true), []);
   const hideFinale = useCallback(() => setFinale(false), []);
+
+  // "Replay the magic" — relive the whole experience from the closed gift.
+  const handleRestart = useCallback(() => {
+    setFinale(false);
+    setUnlocked(false);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, []);
 
   return (
     <div className="relative min-h-[100svh] w-full overflow-x-hidden">
@@ -72,7 +80,7 @@ export default function App() {
             <Reasons />
             <Wishes />
             <SurpriseModal onClosed={showFinale} />
-            <Footer onReplay={showFinale} />
+            <Footer onReplay={handleRestart} />
           </motion.main>
         )}
       </AnimatePresence>
