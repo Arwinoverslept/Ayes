@@ -55,9 +55,9 @@ export default function GiftBox({ onOpen }) {
     const rect = e?.currentTarget?.getBoundingClientRect?.();
     const origin = rect
       ? {
-          x: (rect.left + rect.width / 2) / window.innerWidth,
-          y: (rect.top + rect.height / 2) / window.innerHeight,
-        }
+        x: (rect.left + rect.width / 2) / window.innerWidth,
+        y: (rect.top + rect.height / 2) / window.innerHeight,
+      }
       : { x: 0.5, y: 0.5 };
     burst(origin);
 
@@ -86,7 +86,7 @@ export default function GiftBox({ onOpen }) {
         initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: opening ? 0 : 1, y: 0 }}
         transition={{ duration: 0.9, delay: 0.3 }}
-        className="mb-10 max-w-md font-heading text-lg italic text-rose/80 sm:text-xl"
+        className="mb-10 max-w-md font-heading text-lg italic text-black/50 sm:text-xl"
       >
         {birthdayData.gift.prompt}
       </motion.p>
@@ -107,10 +107,10 @@ export default function GiftBox({ onOpen }) {
           opening
             ? { duration: 0.6 }
             : {
-                scale: { type: 'spring', stiffness: 120, damping: 12, delay: 0.5 },
-                opacity: { duration: 0.6, delay: 0.5 },
-                y: { duration: 3.2, repeat: Infinity, ease: 'easeInOut', delay: 1.1 },
-              }
+              scale: { type: 'spring', stiffness: 120, damping: 12, delay: 0.5 },
+              opacity: { duration: 0.6, delay: 0.5 },
+              y: { duration: 3.2, repeat: Infinity, ease: 'easeInOut', delay: 1.1 },
+            }
         }
         whileHover={opening ? {} : { scale: 1.05 }}
         whileTap={opening ? {} : { scale: 0.97 }}

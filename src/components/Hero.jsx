@@ -73,87 +73,87 @@ function WishCake() {
 
   return (
     <>
-    <motion.button
-      type="button"
-      onClick={handleTap}
-      aria-label={lit ? 'Blow out the candle and make a wish' : 'Open your birthday treat'}
-      className="group relative mx-auto mt-10 block outline-none"
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.8, delay: 0.4 }}
-      whileHover={{ scale: 1.04 }}
-      whileTap={{ scale: 0.97 }}
-    >
-      <svg width="130" height="140" viewBox="0 0 130 140">
-        {/* Flame + glow (only when lit) */}
-        {lit && (
-          <>
-            <motion.ellipse
-              cx="65"
-              cy="34"
-              rx="16"
-              ry="20"
-              fill="#F8C8DC"
-              opacity="0.35"
-              animate={{ opacity: [0.25, 0.5, 0.25], scale: [1, 1.15, 1] }}
-              transition={{ duration: 1.6, repeat: Infinity, ease: 'easeInOut' }}
-              style={{ originX: '65px', originY: '34px' }}
-            />
+      <motion.button
+        type="button"
+        onClick={handleTap}
+        aria-label={lit ? 'Blow out the candle and make a wish' : 'Open your birthday treat'}
+        className="group relative mx-auto mt-10 block outline-none"
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.8, delay: 0.4 }}
+        whileHover={{ scale: 1.04 }}
+        whileTap={{ scale: 0.97 }}
+      >
+        <svg width="130" height="140" viewBox="0 0 130 140">
+          {/* Flame + glow (only when lit) */}
+          {lit && (
+            <>
+              <motion.ellipse
+                cx="65"
+                cy="34"
+                rx="16"
+                ry="20"
+                fill="#F8C8DC"
+                opacity="0.35"
+                animate={{ opacity: [0.25, 0.5, 0.25], scale: [1, 1.15, 1] }}
+                transition={{ duration: 1.6, repeat: Infinity, ease: 'easeInOut' }}
+                style={{ originX: '65px', originY: '34px' }}
+              />
+              <motion.path
+                d="M65 20 C71 28 72 36 65 44 C58 36 59 28 65 20 Z"
+                fill="#E8D7A5"
+                animate={{ scaleY: [1, 1.12, 0.96, 1], scaleX: [1, 0.94, 1.04, 1] }}
+                transition={{ duration: 0.9, repeat: Infinity, ease: 'easeInOut' }}
+                style={{ originX: '65px', originY: '44px' }}
+              />
+            </>
+          )}
+          {/* A soft wisp of smoke after blowing out */}
+          {!lit && (
             <motion.path
-              d="M65 20 C71 28 72 36 65 44 C58 36 59 28 65 20 Z"
-              fill="#E8D7A5"
-              animate={{ scaleY: [1, 1.12, 0.96, 1], scaleX: [1, 0.94, 1.04, 1] }}
-              transition={{ duration: 0.9, repeat: Infinity, ease: 'easeInOut' }}
-              style={{ originX: '65px', originY: '44px' }}
+              d="M65 40 q-6 -8 0 -16 q6 -8 0 -16"
+              stroke="#D8A7B1"
+              strokeWidth="2"
+              fill="none"
+              strokeLinecap="round"
+              initial={{ opacity: 0.7, y: 0 }}
+              animate={{ opacity: 0, y: -24 }}
+              transition={{ duration: 1.6 }}
             />
-          </>
-        )}
-        {/* A soft wisp of smoke after blowing out */}
-        {!lit && (
-          <motion.path
-            d="M65 40 q-6 -8 0 -16 q6 -8 0 -16"
-            stroke="#D8A7B1"
-            strokeWidth="2"
-            fill="none"
-            strokeLinecap="round"
-            initial={{ opacity: 0.7, y: 0 }}
-            animate={{ opacity: 0, y: -24 }}
-            transition={{ duration: 1.6 }}
+          )}
+
+          {/* Candle */}
+          <rect x="61" y="44" width="8" height="26" rx="3" fill="#FADADD" />
+          <rect x="61" y="44" width="8" height="26" rx="3" fill="url(#stripe)" opacity="0.4" />
+
+          {/* Cake */}
+          <rect x="30" y="70" width="70" height="30" rx="8" fill="#F8C8DC" />
+          <rect x="24" y="96" width="82" height="34" rx="10" fill="#FADADD" />
+          {/* Frosting drips */}
+          <path
+            d="M24 100 q10 12 20 0 q10 12 20 0 q10 12 20 0 q10 12 22 0 V96 H24 Z"
+            fill="#FFFDF8"
+            opacity="0.85"
           />
-        )}
+          {/* Little decorations */}
+          <circle cx="40" cy="114" r="3" fill="#E6E6FA" />
+          <circle cx="65" cy="118" r="3" fill="#FFE5D4" />
+          <circle cx="90" cy="114" r="3" fill="#E8D7A5" />
 
-        {/* Candle */}
-        <rect x="61" y="44" width="8" height="26" rx="3" fill="#FADADD" />
-        <rect x="61" y="44" width="8" height="26" rx="3" fill="url(#stripe)" opacity="0.4" />
+          <defs>
+            <linearGradient id="stripe" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stopColor="#D8A7B1" />
+              <stop offset="100%" stopColor="#FADADD" />
+            </linearGradient>
+          </defs>
+        </svg>
+        <span className="mt-1 block font-body text-xs uppercase tracking-[0.2em] text-black/50">
+          {lit ? 'tap to make a wish' : 'tap for your treat 🎟️'}
+        </span>
+      </motion.button>
 
-        {/* Cake */}
-        <rect x="30" y="70" width="70" height="30" rx="8" fill="#F8C8DC" />
-        <rect x="24" y="96" width="82" height="34" rx="10" fill="#FADADD" />
-        {/* Frosting drips */}
-        <path
-          d="M24 100 q10 12 20 0 q10 12 20 0 q10 12 20 0 q10 12 22 0 V96 H24 Z"
-          fill="#FFFDF8"
-          opacity="0.85"
-        />
-        {/* Little decorations */}
-        <circle cx="40" cy="114" r="3" fill="#E6E6FA" />
-        <circle cx="65" cy="118" r="3" fill="#FFE5D4" />
-        <circle cx="90" cy="114" r="3" fill="#E8D7A5" />
-
-        <defs>
-          <linearGradient id="stripe" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0%" stopColor="#D8A7B1" />
-            <stop offset="100%" stopColor="#FADADD" />
-          </linearGradient>
-        </defs>
-      </svg>
-      <span className="mt-1 block font-body text-xs uppercase tracking-[0.2em] text-rose/50">
-        {lit ? 'tap to make a wish' : 'tap for your treat 🎟️'}
-      </span>
-    </motion.button>
-
-    <TreatPicker open={pickerOpen} onClose={() => setPickerOpen(false)} />
+      <TreatPicker open={pickerOpen} onClose={() => setPickerOpen(false)} />
     </>
   );
 }

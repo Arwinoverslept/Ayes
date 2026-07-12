@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { HiXMark, HiCheckCircle, HiGift, HiShare } from 'react-icons/hi2';
+import { HiXMark, HiGift, HiShare } from 'react-icons/hi2';
 import { birthdayData } from '../data/birthdayData';
 import { useConfetti } from '../hooks/useConfetti';
 
@@ -174,7 +174,7 @@ export default function TreatPicker({ open, onClose }) {
                 {alreadyChosen ? treats.claimTitle : treats.prompt}
               </h3>
               {!alreadyChosen && (
-                <p className="mx-auto mt-3 max-w-md font-body text-sm text-rose/70">
+                <p className="mx-auto mt-3 max-w-md font-body text-sm text-black/60">
                   {treats.subtitle}
                 </p>
               )}
@@ -205,8 +205,8 @@ export default function TreatPicker({ open, onClose }) {
                     whileTap={alreadyChosen ? {} : { scale: 0.97 }}
                     transition={{ type: 'spring', stiffness: 300, damping: 20 }}
                     className={`group relative flex flex-col items-center gap-3 rounded-3xl border p-6 text-center transition-shadow duration-500 ${isChosen
-                        ? 'border-champagne bg-white/70 shadow-glow'
-                        : 'border-white/60 bg-white/40 hover:shadow-glow'
+                      ? 'border-champagne bg-white/70 shadow-glow'
+                      : 'border-white/60 bg-white/40 hover:shadow-glow'
                       } ${alreadyChosen ? 'cursor-default' : 'cursor-pointer'}`}
                     style={
                       isChosen
@@ -217,12 +217,14 @@ export default function TreatPicker({ open, onClose }) {
                     {/* Chosen badge */}
                     {isChosen && (
                       <motion.span
-                        initial={{ scale: 0 }}
-                        animate={{ scale: 1 }}
+                        initial={{ scale: 0, rotate: -40 }}
+                        animate={{ scale: 1, rotate: 0 }}
                         transition={{ type: 'spring', stiffness: 260, damping: 14 }}
-                        className="absolute -right-2 -top-2 text-champagne"
+                        className="absolute -right-2 -top-2 text-2xl"
+                        style={{ filter: 'drop-shadow(0 2px 4px rgba(216,167,177,0.55))' }}
+                        aria-hidden="true"
                       >
-                        <HiCheckCircle size={30} className="fill-current" />
+                        🌸
                       </motion.span>
                     )}
                     <span className="text-5xl">{treat.emoji}</span>
@@ -250,25 +252,10 @@ export default function TreatPicker({ open, onClose }) {
                     Yay! Arwin owes you {chosenTreat.qty} {chosenTreat.name}{' '}
                     {chosenTreat.emoji}
                   </p>
-                  <p className="mt-1 font-body text-sm text-rose/70">
+                  <p className="mt-1 font-body text-sm text-black/70">
                     {treats.claimNote}
                   </p>
 
-                  <button
-                    type="button"
-                    onClick={sendToArwin}
-                    className="mt-5 inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-pastel to-rose px-7 py-3 font-body text-sm font-medium text-white shadow-soft transition-all duration-300 hover:-translate-y-0.5 hover:shadow-glow"
-                  >
-                    <HiShare size={18} />
-                    {treats.sendLabel}
-                  </button>
-
-                  <p
-                    className="mt-3 h-4 font-body text-xs text-sage"
-                    aria-live="polite"
-                  >
-                    {copied ? 'Copied! Paste it to Arwin 💕' : ''}
-                  </p>
                 </motion.div>
               )}
             </AnimatePresence>
