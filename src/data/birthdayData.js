@@ -18,6 +18,26 @@ export const birthdayData = {
     'Never stop smiling, because your smile makes the world a little brighter. Wishing you the happiest birthday ever!',
   ],
 
+  // ── Bonus · "Your Wish, Granted" treat picker (on the candle) ──
+  // When she blows out the candle she gets to claim ONE real treat.
+  // The choice locks the moment she picks and is remembered forever
+  // (stored in her browser), so it can only be chosen once.
+  treats: {
+    prompt: 'Your wish is granted 💫',
+    subtitle: 'Choose one treat, just for you — you can only pick one, so choose your heart’s desire.',
+    options: [
+      { emoji: '🍣', qty: '1×', name: 'Sushi Mix Platter' },
+      { emoji: '🥐', qty: '1×', name: 'Pastry from Paul Le Café' },
+      { emoji: '🍜', qty: '1×', name: 'Mendokoro Ramenba Ramen' },
+    ],
+    // Shown after she picks.
+    claimTitle: 'Your treat is reserved! 🎟️',
+    claimNote: 'Screenshot this and send it to Arwin to claim it',
+    sendLabel: 'Send my choice to Arwin',
+    // Used as a fallback when the phone’s share sheet isn’t available.
+    notifyEmail: 'arwinbulongviernes@gmail.com',
+  },
+
   reasons: [
     { icon: 'heart', text: 'Your Kindness' },
     { icon: 'flower', text: 'Your Beautiful Heart' },

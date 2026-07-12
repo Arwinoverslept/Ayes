@@ -3,6 +3,17 @@ import { motion } from 'framer-motion';
 import { HiSparkles } from 'react-icons/hi2';
 import { birthdayData } from '../data/birthdayData';
 import { useConfetti } from '../hooks/useConfetti';
+import TreatPicker from './TreatPicker';
+
+// Matches the key TreatPicker persists to — used to reflect a prior choice.
+const TREAT_KEY = 'ayes-birthday-treat-v1';
+const hasChosenTreat = () => {
+  try {
+    return window.localStorage.getItem(TREAT_KEY) !== null;
+  } catch {
+    return false;
+  }
+};
 
 /**
  * Scene 2 · Birthday Greeting
@@ -42,24 +53,30 @@ function AnimatedWords({ text, className }) {
 
 /* The tappable birthday cake with a candle to blow out. */
 function WishCake() {
-  const [lit, setLit] = useState(true);
+  // If she already claimed a treat on a previous visit, start unlit.
+  const [lit, setLit] = useState(() => !hasChosenTreat());
+  const [pickerOpen, setPickerOpen] = useState(false);
   const { burst } = useConfetti();
 
-  const blowOut = (e) => {
-    if (!lit) return;
-    setLit(false);
-    const rect = e.currentTarget.getBoundingClientRect();
-    burst({
-      x: (rect.left + rect.width / 2) / window.innerWidth,
-      y: (rect.top + rect.height / 3) / window.innerHeight,
-    });
+  const handleTap = (e) => {
+    if (lit) {
+      setLit(false);
+      const rect = e.currentTarget.getBoundingClientRect();
+      burst({
+        x: (rect.left + rect.width / 2) / window.innerWidth,
+        y: (rect.top + rect.height / 3) / window.innerHeight,
+      });
+    }
+    // Open the treat picker (blowing out the candle grants the wish).
+    setPickerOpen(true);
   };
 
   return (
+    <>
     <motion.button
       type="button"
-      onClick={blowOut}
-      aria-label={lit ? 'Blow out the candle and make a wish' : 'You made a wish 💫'}
+      onClick={handleTap}
+      aria-label={lit ? 'Blow out the candle and make a wish' : 'Open your birthday treat'}
       className="group relative mx-auto mt-10 block outline-none"
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
@@ -132,9 +149,12 @@ function WishCake() {
         </defs>
       </svg>
       <span className="mt-1 block font-body text-xs uppercase tracking-[0.2em] text-rose/50">
-        {lit ? 'tap to make a wish' : 'wish made 💫'}
+        {lit ? 'tap to make a wish' : 'tap for your treat 🎟️'}
       </span>
     </motion.button>
+
+    <TreatPicker open={pickerOpen} onClose={() => setPickerOpen(false)} />
+    </>
   );
 }
 

@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 import AnimatedGradient from './components/AnimatedGradient';
@@ -24,9 +24,32 @@ import Footer from './components/Footer';
  * The living background (gradient + decorations) is always present so every
  * scene shares the same dreamy atmosphere.
  */
+// Persisted keys the app writes to localStorage (kept here so the reset
+// shortcut always clears everything the experience remembers).
+const PERSISTED_KEYS = ['ayes-birthday-treat-v1'];
+
 export default function App() {
   const [unlocked, setUnlocked] = useState(false);
   const [finale, setFinale] = useState(false);
+
+  // Testing helper: visiting the site with "?reset" clears any saved state
+  // (e.g. the treat choice) so all options can be tried again, then strips the
+  // param so a normal refresh doesn't keep resetting. Harmless in production —
+  // it only runs when the param is deliberately present.
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    if (params.has('reset')) {
+      try {
+        PERSISTED_KEYS.forEach((key) => window.localStorage.removeItem(key));
+      } catch {
+        /* storage unavailable — nothing to clear */
+      }
+      params.delete('reset');
+      const clean =
+        window.location.pathname + (params.toString() ? `?${params}` : '');
+      window.history.replaceState(null, '', clean);
+    }
+  }, []);
 
   const handleOpenGift = useCallback(() => {
     setUnlocked(true);
