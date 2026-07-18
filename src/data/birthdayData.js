@@ -24,7 +24,7 @@ export const birthdayData = {
   // (stored in her browser), so it can only be chosen once.
   treats: {
     prompt: 'Your wish is granted 💫',
-    subtitle: 'Choose one treat, just for you — you can only pick one, so choose your heart’s desire.',
+    subtitle: 'Choose one treat, just for you. You can only pick one, so choose your heart’s desire.',
     options: [
       { emoji: '🍣', qty: '1×', name: 'Sushi Mix Platter' },
       { emoji: '🥐', qty: '1×', name: 'Pastry from Paul Le Café' },
@@ -36,6 +36,30 @@ export const birthdayData = {
     sendLabel: 'Send my choice to Arwin',
     // Used as a fallback when the phone’s share sheet isn’t available.
     notifyEmail: 'arwinbulongviernes@gmail.com',
+  },
+
+  // ── Favorites gallery captions ────────────────────────────
+  // Optional captions for the photos in `src/assets/favorites/`, keyed by the
+  // file's number (e.g. 01.JPG → "01"). Any photo not listed here simply shows
+  // no caption. Shown on hover (desktop) and in the lightbox.
+  favoriteCaptions: {
+    '01': 'Gandaaaaa.',
+    '02': 'Ganda talaga potek.',
+    '03': 'One of my favorite photos of you.',
+    '04': 'My favorite photo of you.',
+    '05': 'Cute na Ayes.',
+    '06': 'Lugi sa mga mata mo.',
+    '08': 'Ang bait tignan HAHAHA',
+    '13': 'Talo po sa Smile.',
+    '17': 'Kumakain na Ayes.',
+    '18': 'May Question Mark na Subtitle na Mukha ni Ayes',
+    '19': 'Ganda matulog e. Ano gagawin jan.',
+    '20': 'ETOOOOO. LITERAL NA CUTE NA AYES',
+    '21': 'Tita Ayes and Aurora',
+    '22': 'Fluffy naman ng Pisngi na yan',
+    '24': 'Lugi sa EYES part 2.',
+    '25': 'Lugi sa EYES part 3.',
+    '31': 'Mejo makulit na Ayes',
   },
 
   reasons: [

@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { HiChevronLeft, HiChevronRight, HiXMark } from 'react-icons/hi2';
 import { FiImage } from 'react-icons/fi';
+import { birthdayData } from '../data/birthdayData';
 
 /**
  * Scene 4 · Favorites
@@ -17,13 +18,37 @@ const modules = import.meta.glob(
   { eager: true, import: 'default' }
 );
 
+const CAPTIONS = birthdayData.favoriteCaptions || {};
+
 const FAVORITES = Object.entries(modules)
   .sort(([a], [b]) => a.localeCompare(b, undefined, { numeric: true }))
-  .map(([path, src]) => ({
-    src,
-    // A gentle fallback alt text from the filename.
-    alt: path.split('/').pop().replace(/\.[^.]+$/, '').replace(/[-_]/g, ' '),
-  }));
+  .map(([path, src]) => {
+    // The filename without extension, e.g. "01.JPG" → "01" — the caption key.
+    const key = path.split('/').pop().replace(/\.[^.]+$/, '');
+    const caption = CAPTIONS[key] || '';
+    return {
+      src,
+      caption,
+      // Prefer the caption as alt text; fall back to a readable filename.
+      alt: caption || key.replace(/[-_]/g, ' '),
+    };
+  });
+
+// Responsive column count for the masonry: 2 on mobile, 3 on desktop.
+function useColumnCount() {
+  const get = () =>
+    typeof window !== 'undefined' &&
+    window.matchMedia('(min-width: 1024px)').matches
+      ? 3
+      : 2;
+  const [cols, setCols] = useState(get);
+  useEffect(() => {
+    const onResize = () => setCols(get());
+    window.addEventListener('resize', onResize);
+    return () => window.removeEventListener('resize', onResize);
+  }, []);
+  return cols;
+}
 
 function EmptyState() {
   return (
@@ -50,6 +75,44 @@ function EmptyState() {
 export default function Favorites() {
   const photos = useMemo(() => FAVORITES, []);
   const [active, setActive] = useState(null);
+
+  const columnCount = useColumnCount();
+
+  // Measured masonry: as each photo loads we learn its aspect ratio, then pack
+  // photos (in order) into whichever column is currently SHORTEST. This keeps
+  // the staggered ladder look and a near 1→33 order while balancing the columns
+  // so the bottom ends evenly. Before a photo loads we assume a portrait-ish
+  // default, so the initial layout is sensible and settles as images load.
+  // Since images load top-first, columns settle before you scroll down to them.
+  const [ratios, setRatios] = useState({});
+  const measure = useCallback((index, img) => {
+    if (!img || !img.naturalWidth) return;
+    const ratio = img.naturalHeight / img.naturalWidth;
+    setRatios((prev) => (prev[index] ? prev : { ...prev, [index]: ratio }));
+  }, []);
+  // Ref that measures images which are ALREADY loaded (e.g. from cache), since
+  // their onLoad won't fire; onLoad below covers freshly-fetched images.
+  const measureRef = useCallback(
+    (index) => (node) => {
+      if (node && node.complete) measure(index, node);
+    },
+    [measure]
+  );
+
+  const columns = useMemo(() => {
+    const colHeights = Array(columnCount).fill(0);
+    const cols = Array.from({ length: columnCount }, () => []);
+    photos.forEach((photo, i) => {
+      // Pick the currently shortest column (leftmost on ties → preserves order).
+      let c = 0;
+      for (let k = 1; k < columnCount; k += 1) {
+        if (colHeights[k] < colHeights[c] - 1e-6) c = k;
+      }
+      cols[c].push({ ...photo, index: i });
+      colHeights[c] += ratios[i] || 1.3; // relative height (default portrait)
+    });
+    return cols;
+  }, [photos, columnCount, ratios]);
 
   const close = useCallback(() => setActive(null), []);
   const next = useCallback(
@@ -86,7 +149,7 @@ export default function Favorites() {
         className="mb-14 text-center"
       >
         <h2 className="section-title">Pretty Ayes</h2>
-        <p className="mx-auto mt-4 max-w-md font-body text-rose/60">
+        <p className="mx-auto mt-4 max-w-md font-body text-black/70">
           A collection of Ayes moments💗.
         </p>
       </motion.div>
@@ -94,29 +157,43 @@ export default function Favorites() {
       {photos.length === 0 ? (
         <EmptyState />
       ) : (
-        <div className="columns-2 gap-4 sm:gap-5 lg:columns-3 [&>*]:mb-4 sm:[&>*]:mb-5">
-          {photos.map((photo, i) => (
-            <motion.button
-              type="button"
-              key={photo.src}
-              onClick={() => setActive(i)}
-              aria-label={`Open photo ${i + 1}`}
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.15 }}
-              transition={{ duration: 0.6, delay: (i % 3) * 0.08 }}
-              className="group relative block w-full overflow-hidden rounded-3xl shadow-soft outline-none ring-champagne/50 focus-visible:ring-2"
-            >
-              <img
-                src={photo.src}
-                alt={photo.alt}
-                loading="lazy"
-                decoding="async"
-                className="w-full rounded-3xl object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-              />
-              {/* Soft glow tint on hover */}
-              <div className="pointer-events-none absolute inset-0 rounded-3xl bg-gradient-to-t from-rose/30 via-transparent to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
-            </motion.button>
+        <div className="flex gap-4 sm:gap-5">
+          {columns.map((col, c) => (
+            <div key={c} className="flex flex-1 flex-col gap-4 sm:gap-5">
+              {col.map((photo) => (
+                <motion.button
+                  type="button"
+                  key={photo.src}
+                  onClick={() => setActive(photo.index)}
+                  aria-label={`Open photo ${photo.index + 1}`}
+                  initial={{ opacity: 0, y: 40 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, amount: 0.15 }}
+                  transition={{ duration: 0.6, delay: (photo.index % columnCount) * 0.08 }}
+                  className="group relative block w-full overflow-hidden rounded-3xl shadow-soft outline-none ring-champagne/50 focus-visible:ring-2"
+                >
+                  <img
+                    ref={measureRef(photo.index)}
+                    src={photo.src}
+                    alt={photo.alt}
+                    loading="lazy"
+                    decoding="async"
+                    onLoad={(e) => measure(photo.index, e.currentTarget)}
+                    className="w-full rounded-3xl object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                  />
+                  {/* Soft glow tint on hover */}
+                  <div className="pointer-events-none absolute inset-0 rounded-3xl bg-gradient-to-t from-rose/30 via-transparent to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+                  {/* Caption on hover (only when this photo has one) */}
+                  {photo.caption && (
+                    <div className="pointer-events-none absolute inset-x-0 bottom-0 flex items-end rounded-b-3xl bg-gradient-to-t from-ivory/95 via-ivory/50 to-transparent p-4 opacity-0 transition-opacity duration-500 group-hover:opacity-100">
+                      <span className="text-left font-body text-sm font-medium leading-snug text-black/70">
+                        {photo.caption}
+                      </span>
+                    </div>
+                  )}
+                </motion.button>
+              ))}
+            </div>
           ))}
         </div>
       )}
@@ -179,13 +256,18 @@ export default function Favorites() {
               exit={{ scale: 0.95, opacity: 0 }}
               transition={{ type: 'spring', stiffness: 200, damping: 24 }}
               onClick={(e) => e.stopPropagation()}
-              className="relative z-0 max-h-[85vh] w-full max-w-3xl overflow-hidden rounded-3xl shadow-lift"
+              className="relative z-0 flex max-h-[85vh] w-full max-w-3xl flex-col overflow-hidden rounded-3xl shadow-lift"
             >
               <img
                 src={photos[active].src}
                 alt={photos[active].alt}
-                className="max-h-[85vh] w-full object-contain"
+                className="max-h-[75vh] w-full object-contain"
               />
+              {photos[active].caption && (
+                <figcaption className="glass px-5 py-4 text-center font-body text-black/70">
+                  {photos[active].caption}
+                </figcaption>
+              )}
             </motion.figure>
           </motion.div>
         )}
