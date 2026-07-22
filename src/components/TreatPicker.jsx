@@ -29,7 +29,7 @@ function readChoice() {
 }
 
 export default function TreatPicker({ open, onClose }) {
-  const { treats } = birthdayData;
+  const { treats, nickname } = birthdayData;
   const { burst } = useConfetti();
 
   const [chosen, setChosen] = useState(() =>
@@ -253,7 +253,7 @@ export default function TreatPicker({ open, onClose }) {
                     {chosenTreat.emoji}
                   </p>
                   <p className="mt-1 font-body text-sm text-black/70">
-                    {treats.claimNote},{recipientName}
+                    {treats.claimNote}, {nickname}
                   </p>
 
                 </motion.div>
