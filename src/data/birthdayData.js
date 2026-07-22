@@ -45,8 +45,8 @@ export const birthdayData = {
   favoriteCaptions: {
     '01': 'Gandaaaaa.',
     '02': 'Ganda talaga potek.',
-    '03': 'One of my favorite photos of you.',
-    '04': 'My favorite photo of you.',
+    '03': 'This is definitely one of my favorite photo of you.',
+    '04': 'Nothing beats this photo. SOAFER PRETTY',
     '05': 'Cute na Ayes.',
     '06': 'Lugi sa mga mata mo.',
     '08': 'Ang bait tignan HAHAHA',
