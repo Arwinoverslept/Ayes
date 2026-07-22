@@ -167,7 +167,7 @@ export default function Hero() {
       className="section-shell flex flex-col items-center text-center"
       aria-label="Birthday greeting"
     >
-      {/* Orbiting sparkles around the title */}
+      { }
       <div className="relative">
         {[0, 1, 2, 3].map((i) => (
           <motion.div

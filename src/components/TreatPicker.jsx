@@ -253,7 +253,7 @@ export default function TreatPicker({ open, onClose }) {
                     {chosenTreat.emoji}
                   </p>
                   <p className="mt-1 font-body text-sm text-black/70">
-                    {treats.claimNote}
+                    {treats.claimNote},{recipientName}
                   </p>
 
                 </motion.div>
